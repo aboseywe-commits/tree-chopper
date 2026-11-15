@@ -205,6 +205,36 @@ body.in-menu #pc-hint{display:none!important}
 #net-result .nr-title{font-size:26px;font-weight:900;color:#ffd27a}
 #net-result button{font-family:'Tajawal',sans-serif;font-weight:900;font-size:16px;border-radius:12px;padding:10px 24px;margin:6px;cursor:pointer;border:2px solid #6ab4ff;background:linear-gradient(135deg,#1a4f8a,#2f7fd0);color:#fff}
 #net-result button.np-exit{background:rgba(255,255,255,.06);border-color:#5a6a7a;color:#c8d6e4}
+/* ══ v4 ══ */
+#exit-btn{background:linear-gradient(135deg,#8a1a1a,#c93a3a);border:2px solid #ff7a7a;border-radius:12px;padding:6px 12px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:900;color:#fff;cursor:pointer}
+body.in-menu #exit-btn{display:none!important}
+#shop-tabs{display:flex;gap:6px;margin-bottom:12px}
+.stab{flex:1;padding:8px 4px;border-radius:10px;border:1px solid #2a5a2a;background:rgba(255,255,255,.04);color:#8acf8a;font-family:'Tajawal',sans-serif;font-size:12px;font-weight:900;cursor:pointer}
+.stab.active{background:linear-gradient(135deg,#1a6a1a,#2a9a2a);border-color:#4cff6e;color:#fff}
+#ad-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.95);align-items:center;justify-content:center;text-align:center;color:#fff}
+#ad-overlay.open{display:flex}
+#ad-box{padding:24px}
+.ad-tag{font-size:18px;font-weight:900;color:#f5c518;margin-bottom:10px}
+#ad-count{font-size:90px;font-weight:900;color:#4cff6e;line-height:1}
+.ad-sub{font-size:13px;color:#8acf8a;margin-top:12px}
+/* ══ v5 ══ */
+#shop-tabs{flex-wrap:wrap}
+.stab{flex:1 1 30%;font-size:11px}
+#quest-bar{position:fixed;top:78px;left:10px;z-index:100;width:160px;display:flex;flex-direction:column;gap:3px;pointer-events:none}
+.qrow{position:relative;overflow:hidden;display:flex;flex-direction:column;background:rgba(3,15,3,.88);border:1px solid #2a6a2a;border-radius:8px;padding:3px 7px;font-size:10px;color:#cfc}
+.qfill{position:absolute;top:0;bottom:0;right:0;background:rgba(76,255,110,.2)}
+.qtx,.qn{position:relative}
+.qn{color:#f5c518}
+body.in-menu #quest-bar{display:none!important}
+#tut{display:none;position:fixed;left:50%;bottom:230px;transform:translateX(-50%);z-index:250;width:290px;max-width:92vw;background:rgba(4,16,4,.94);border:2px solid #f5c518;border-radius:16px;padding:10px 14px;text-align:center;color:#fff;box-shadow:0 0 24px #f5c51855}
+#tut.open{display:block}
+#tut-step{font-size:11px;color:#f5c518;font-weight:900;margin-bottom:3px}
+#tut-txt{font-size:14px;font-weight:700;line-height:1.5}
+#tut-skip{margin-top:8px;background:transparent;border:1px solid #f5c518;border-radius:8px;padding:5px 16px;font-family:'Tajawal',sans-serif;font-size:12px;font-weight:700;color:#f5c518;cursor:pointer}
+body.in-menu #tut{display:none!important}
+body.device-pc #tut{bottom:100px}
+@keyframes tutPulse{0%,100%{box-shadow:0 0 0 0 #f5c518aa}50%{box-shadow:0 0 0 10px #f5c51800}}
+#shop-btn.tut-pulse{animation:tutPulse 1s infinite;border-color:#f5c518}
 </style>
 </head>
 <body>
@@ -342,6 +372,9 @@ body.in-menu #pc-hint{display:none!important}
   <div class="hb"><span class="hb-icon">🪙</span><div><div class="hb-lbl">عملات</div><div class="hb-val" id="h-coins">0</div></div></div>
   <div class="hb"><span class="hb-icon">🪓</span><div><div class="hb-lbl">قوة الفاس</div><div class="hb-val" id="h-power">1</div></div></div>
   <div class="hb"><span class="hb-icon">🏆</span><div><div class="hb-lbl">منطقة</div><div class="hb-val" id="h-zone">1</div></div></div>
+  <div class="hb" id="hb-coins" style="display:none"><span class="hb-icon">💰</span><div><div class="hb-lbl">x2 فلوس</div><div class="hb-val" id="b-coins-t">0:00</div></div></div>
+  <div class="hb" id="hb-power" style="display:none"><span class="hb-icon">💪</span><div><div class="hb-lbl">x2 قوة</div><div class="hb-val" id="b-power-t">0:00</div></div></div>
+  <div class="hb" id="hb-rb" style="display:none"><span class="hb-icon">🔁</span><div><div class="hb-lbl">Rebirth</div><div class="hb-val" id="h-rb">x1</div></div></div>
 </div>
 <div id="prog-wrap"><div id="prog-fill"></div></div>
 <div id="controls">
@@ -351,17 +384,22 @@ body.in-menu #pc-hint{display:none!important}
 </div>
 <div id="tgt-bar">🎯 لا يوجد هدف</div>
 <div id="top-btns">
-  <button id="shop-btn">🛒 ترقية</button>
+  <button id="exit-btn">🚪 خروج</button>
+  <button id="shop-btn">🛒 المتجر</button>
   <button id="ingame-settings-btn">⚙️</button>
 </div>
 <div id="shop-overlay">
   <div id="shop-panel">
-    <h2>🏪 متجر الترقيات</h2>
+    <h2>🏪 المتجر</h2>
+    <div id="shop-tabs"><button class="stab active" data-tab="upg">⬆️ الترقيات</button><button class="stab" data-tab="axes">🪓 فؤوس</button><button class="stab" data-tab="rebirth">🔁 Rebirth</button><button class="stab" data-tab="boost">🚀 البوستات</button><button class="stab" data-tab="coins">🪙 العملات</button></div>
     <div id="shop-cards"></div>
     <button class="close-sh" id="close-shop">✖ إغلاق</button>
   </div>
 </div>
+<div id="ad-overlay"><div id="ad-box"><div class="ad-tag">📺 إعلان تجريبي</div><div id="ad-count">5</div><div class="ad-sub">انتظر لين ينتهي الإعلان لتحصل على المكافأة</div></div></div>
 <div id="notif-area"></div>
+<div id="quest-bar"></div>
+<div id="tut"><div id="tut-step"></div><div id="tut-txt"></div><button id="tut-skip">⏭ تخطي / Skip</button></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -370,10 +408,10 @@ body.in-menu #pc-hint{display:none!important}
 // ═══════════════════════════════════════════════
 const state={coins:0,treesCut:0,axePower:1,axeSpeed:1,autoChop:0,zone:1,
   upgrades:{
-    power:{level:0,cost:[10,25,60,120,250,500,1000],bonus:[1,1,2,2,3,5,10],name:"شفرة الفاس",desc:"زيادة ضرر الفأس"},
-    speed:{level:0,cost:[15,35,80,150,300,600,1200],bonus:[.5,.5,1,1,2,3,5],name:"سرعة القطع",desc:"تقليل وقت الانتظار"},
-    auto: {level:0,cost:[50,120,300,700,1500,3000,6000],bonus:[1,1,2,3,5,8,15],name:"مساعد آلي",desc:"قطع تلقائي كل ثانية"},
-    coins:{level:0,cost:[20,50,100,200,400,800,1600],bonus:[1,1,2,2,3,5,10],name:"جامع الخشب",desc:"زيادة العملات"},
+    power:{level:0,cost:[10,25,60,120,250,500,1000,1800,3200,5800,10000,18000,32000,58000,100000],bonus:[1,1,2,2,3,5,10,15,25,40,60,90,140,200,300],name:"شفرة الفاس",desc:"زيادة ضرر الفأس"},
+    speed:{level:0,cost:[15,35,80,150,300,600,1200,2200,3800,6500,11000,19000,34000,60000,105000],bonus:[.5,.5,1,1,2,3,5,6,8,10,12,15,18,22,26],name:"سرعة القطع",desc:"تقليل وقت الانتظار"},
+    auto: {level:0,cost:[50,120,300,700,1500,3000,6000,10000,17000,29000,50000,85000,140000,230000,380000],bonus:[1,1,2,3,5,8,15,20,25,30,40,50,60,70,80],name:"مساعد آلي",desc:"قطع تلقائي كل ثانية"},
+    coins:{level:0,cost:[20,50,100,200,400,800,1600,2800,4500,7500,12000,20000,34000,58000,100000],bonus:[1,1,2,2,3,5,10,12,15,18,22,26,30,35,40],name:"جامع الخشب",desc:"زيادة العملات"},
   }
 };
 const TREES=[
@@ -382,7 +420,13 @@ const TREES=[
   {level:3,kind:'pine',  hp:10,coins:12,trunk:0xa07a58,leaf:0x2e8a52,leaf2:0x257848,label:"كبيرة"},
   {level:4,kind:'pine',  hp:20,coins:25,trunk:0x8a6648,leaf:0x23704f,leaf2:0x1b5f43,label:"ضخمة"},
   {level:5,kind:'legend',hp:40,coins:55,trunk:0x7a5a40,leaf:0xe3b53a,leaf2:0xc98f22,em:0x4a3200,label:"أسطورية"},
+  {level:6,kind:'crystal',hp:300,coins:350,trunk:0x4a3a6a,leaf:0x6ee7ff,leaf2:0xb48cff,em:0x0a4a6a,label:"كريستال"},
+  {level:7,kind:'lava',hp:850,coins:1000,trunk:0x2a1a14,leaf:0xff5a1a,leaf2:0xc92a0a,em:0x6a1a00,label:"لافا"},
+  {level:8,kind:'royal',hp:2500,coins:3200,trunk:0x5a3a14,leaf:0x8a3ad0,leaf2:0x5a1a9a,em:0x2a0a4a,label:"ملكية"},
 ];
+const UNLOCK=[1,2,3,4,5,7,10,13];
+const ZONE_TH=[0,5,15,30,55,90,140,200,300,500,750,1050,1400,1800,2300];
+const TREE_COUNT=55;
 
 // ═══════════════════════════════════════════════
 //  RENDERER
@@ -502,14 +546,14 @@ function makeGroundTex(){
     g.strokeStyle='hsl('+(85+Math.random()*40)+','+(45+Math.random()*30)+'%,'+(30+Math.random()*22)+'%)';
     g.lineWidth=1+Math.random();g.stroke();
   }
-  const t=new THREE.CanvasTexture(cv);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(26,26);
+  const t=new THREE.CanvasTexture(cv);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(52,52);
   t.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
   return t;
 }
 {
   // PlaneGeometry lies in local XY: local Y becomes world -Z after the rotation, local Z becomes height.
   // (The old code read local Z as "z", so the ground never matched groundY() — trees floated or sank.)
-  const gGeo=new THREE.PlaneGeometry(240,240,110,110),gp=gGeo.attributes.position;
+  const gGeo=new THREE.PlaneGeometry(480,480,150,150),gp=gGeo.attributes.position;
   for(let i=0;i<gp.count;i++)gp.setZ(i,groundY(gp.getX(i),-gp.getY(i)));
   gGeo.computeVertexNormals();
   const ground=new THREE.Mesh(gGeo,new THREE.MeshLambertMaterial({map:makeGroundTex()}));
@@ -557,9 +601,9 @@ const ringMat=new THREE.MeshLambertMaterial({map:ringTex});
   }
   const tuft=new THREE.BufferGeometry();
   tuft.setAttribute('position',new THREE.Float32BufferAttribute(gp,3));tuft.computeVertexNormals();
-  const GN=3200,grass=new THREE.InstancedMesh(tuft,new THREE.MeshLambertMaterial({color:0xffffff,side:THREE.DoubleSide}),GN);
+  const GN=6400,grass=new THREE.InstancedMesh(tuft,new THREE.MeshLambertMaterial({color:0xffffff,side:THREE.DoubleSide}),GN);
   for(let i=0;i<GN;i++){
-    const [x,y,z]=rndPos(100,62),s=.7+Math.random()*1.1;
+    const [x,y,z]=rndPos(142,88),s=.7+Math.random()*1.1;
     dummy.position.set(x,y,z);dummy.rotation.set(0,Math.random()*Math.PI,0);dummy.scale.set(s,.7+Math.random()*1.2,s);
     dummy.updateMatrix();grass.setMatrixAt(i,dummy.matrix);
     grass.setColorAt(i,tc.setHSL(.22+Math.random()*.09,.5+Math.random()*.2,.27+Math.random()*.2));
@@ -567,13 +611,13 @@ const ringMat=new THREE.MeshLambertMaterial({map:ringTex});
   grass.frustumCulled=false;scene.add(grass);
 
   // flowers: stem + coloured head
-  const FN=260,stemG=new THREE.CylinderGeometry(.012,.016,.34,4);stemG.translate(0,.17,0);
+  const FN=520,stemG=new THREE.CylinderGeometry(.012,.016,.34,4);stemG.translate(0,.17,0);
   const headG=new THREE.SphereGeometry(.085,6,5);headG.translate(0,.36,0);
   const stems=new THREE.InstancedMesh(stemG,new THREE.MeshLambertMaterial({color:0x3d7a2c}),FN);
   const heads=new THREE.InstancedMesh(headG,new THREE.MeshLambertMaterial({color:0xffffff}),FN);
   const pal=[0xffffff,0xffe14d,0xff7aa8,0xb48cff,0xff9a4d];
   for(let i=0;i<FN;i++){
-    const [x,y,z]=rndPos(95,58),s=.8+Math.random()*.7;
+    const [x,y,z]=rndPos(134,82),s=.8+Math.random()*.7;
     dummy.position.set(x,y,z);dummy.rotation.set(0,Math.random()*3,0);dummy.scale.setScalar(s);
     dummy.updateMatrix();stems.setMatrixAt(i,dummy.matrix);heads.setMatrixAt(i,dummy.matrix);
     heads.setColorAt(i,tc.setHex(pal[Math.floor(Math.random()*pal.length)]));
@@ -581,10 +625,10 @@ const ringMat=new THREE.MeshLambertMaterial({map:ringTex});
   stems.frustumCulled=false;heads.frustumCulled=false;scene.add(stems);scene.add(heads);
 
   // rocks: flat-shaded low-poly
-  const RN=70,rocks=new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1,0),
+  const RN=140,rocks=new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1,0),
     new THREE.MeshPhongMaterial({color:0xffffff,flatShading:true,shininess:4,specular:0x111111}),RN);
   for(let i=0;i<RN;i++){
-    const [x,y,z]=rndPos(95,58),sx=.2+Math.random()*.75,sy=.15+Math.random()*.4;
+    const [x,y,z]=rndPos(134,82),sx=.2+Math.random()*.75,sy=.15+Math.random()*.4;
     dummy.position.set(x,y+sy*.3,z);dummy.rotation.set(Math.random()*.4,Math.random()*3,Math.random()*.4);
     dummy.scale.set(sx,sy,sx*(.7+Math.random()*.5));dummy.updateMatrix();rocks.setMatrixAt(i,dummy.matrix);
     const g=.36+Math.random()*.22;rocks.setColorAt(i,tc.setRGB(g,g*1.02,g*.94));
@@ -599,14 +643,14 @@ const logGeo=new THREE.CylinderGeometry(.2,.2,1.2,10);
 const logMats=[barkMat,ringMat,ringMat];
 {
   const farFromSpawn=(x,z)=>Math.hypot(x,z-4)>5;
-  for(let i=0;i<16;i++){
-    const x=(Math.random()-.5)*150,z=(Math.random()-.5)*84;if(!farFromSpawn(x,z))continue;
+  for(let i=0;i<32;i++){
+    const x=(Math.random()-.5)*212,z=(Math.random()-.5)*118;if(!farFromSpawn(x,z))continue;
     const m=new THREE.Mesh(stumpGeo,stumpMats),r=.35+Math.random()*.35;
     m.scale.set(r,.3+Math.random()*.4,r);m.position.set(x,groundY(x,z)+m.scale.y*.5,z);
     m.castShadow=true;scene.add(m);
   }
-  for(let i=0;i<9;i++){
-    const x=(Math.random()-.5)*150,z=(Math.random()-.5)*84;if(!farFromSpawn(x,z))continue;
+  for(let i=0;i<18;i++){
+    const x=(Math.random()-.5)*212,z=(Math.random()-.5)*118;if(!farFromSpawn(x,z))continue;
     const m=new THREE.Mesh(logGeo,logMats);
     m.scale.set(1.1+Math.random()*.5,1+Math.random()*1.4,1.1+Math.random()*.5);
     m.rotation.set(0,Math.random()*3,Math.PI/2);
@@ -723,12 +767,11 @@ playerGroup.position.set(0,0,4);
 const trees=[];let targetTree=null;
 const BLACK=new THREE.Color(0,0,0);
 function getTreeCfg(){
-  const max=Math.min(state.zone,TREES.length);
-  const w=Array.from({length:max},(_,i)=>Math.max(1,max-i));
-  const tot=w.reduce((a,b)=>a+b,0);
-  let r=Math.random()*tot,idx=0;
-  for(let i=0;i<w.length;i++){r-=w[i];if(r<=0){idx=i;break}}
-  return TREES[idx];
+  const z=state.zone,p=.25+z*.3;
+  const w=TREES.map((t,i)=>UNLOCK[i]<=z?Math.pow(i+1,p):0);
+  let r=Math.random()*w.reduce((a,b)=>a+b,0),last=0;
+  for(let i=0;i<w.length;i++){if(w[i]>0){last=i;r-=w[i];if(r<=0)break}}
+  return TREES[last];
 }
 // userData.be = the material's resting emissive (the highlight is added on top of it)
 function leafMat(color,em){
@@ -758,6 +801,29 @@ function buildTreeBody(cfg,s){
       m.rotation.set(rnd()*3,rnd()*3,rnd()*3);m.castShadow=true;
       body.add(m);meshes.push(m);top=Math.max(top,m.position.y+r);
     }
+  } else if(cfg.kind==='crystal'){
+    for(let i=0;i<9;i++){
+      const r=(.35+rnd()*.3)*s*(i===0?1.6:1),a=rnd()*Math.PI*2,d=i===0?0:.5*s*(.6+rnd()*.8);
+      const m=new THREE.Mesh(new THREE.OctahedronGeometry(r,0),leafMat(i%2?cfg.leaf2:cfg.leaf,cfg.em));
+      m.scale.y=2.2;m.position.set(Math.cos(a)*d,th+.9*s+(i===0?.8*s:rnd()*.8*s),Math.sin(a)*d);
+      m.rotation.set((rnd()-.5)*.5,rnd()*3,(rnd()-.5)*.5);m.castShadow=true;
+      body.add(m);meshes.push(m);top=Math.max(top,m.position.y+r*2.2);
+    }
+  } else if(cfg.kind==='lava'){
+    for(let i=0;i<5;i++){
+      const t=i/4,r=(1.4-t*1.0)*s,h=1.5*s*(1-t*.25);
+      const m=new THREE.Mesh(new THREE.ConeGeometry(r,h,6),leafMat(i%2?cfg.leaf2:cfg.leaf,cfg.em));
+      m.position.y=th*.8+i*.95*s+h/2;m.rotation.y=rnd()*Math.PI;m.castShadow=true;
+      body.add(m);meshes.push(m);top=Math.max(top,m.position.y+h/2);
+    }
+  } else if(cfg.kind==='royal'){
+    for(let i=0;i<6;i++){
+      const r=(1.5-i/5)*s,m=new THREE.Mesh(new THREE.IcosahedronGeometry(r,1),leafMat(i%2?cfg.leaf2:cfg.leaf,cfg.em));
+      m.scale.y=.6;m.position.y=th*.9+i*.85*s;m.rotation.y=rnd()*3;m.castShadow=true;
+      body.add(m);meshes.push(m);top=Math.max(top,m.position.y+r*.6);
+    }
+    const orb=new THREE.Mesh(new THREE.OctahedronGeometry(.45*s,0),leafMat(0xffd84a,0x8a6a00));
+    orb.position.y=top+.4*s;body.add(orb);meshes.push(orb);top=orb.position.y+.5*s;
   } else {
     const legend=cfg.kind==='legend';
     const tiers=legend?7:cfg.level+1;                  // level 3 → 4 tiers, level 4 → 5 tiers
@@ -794,18 +860,18 @@ function spawnTree(x,z,opts){
 }
 // Choose a spot: not on the player, not inside another tree
 function pickTreeSpot(){
-  for(let k=0;k<40;k++){
-    const a=Math.random()*Math.PI*2,r=7+Math.random()*34;
-    const x=Math.cos(a)*r,z=Math.sin(a)*r-2;
-    if(Math.abs(x)>76||Math.abs(z)>42)continue;
+  for(let k=0;k<60;k++){
+    const a=Math.random()*Math.PI*2,r=5+Math.pow(Math.random(),.75)*65;
+    const x=Math.cos(a)*r*1.6,z=Math.sin(a)*r*.9-2;
+    if(Math.abs(x)>108||Math.abs(z)>61)continue;
     if(Math.hypot(x-playerGroup.position.x,z-playerGroup.position.z)<6)continue;
     if(online.active&&Object.values(online.avatars).some(a=>Math.hypot(a.root.position.x-x,a.root.position.z-z)<6))continue;
     if(trees.some(t=>!t.dead&&Math.hypot(t.x-x,t.z-z)<4))continue;
     return{x,z};
   }
-  return{x:(Math.random()-.5)*60,z:(Math.random()-.5)*40};
+  return{x:(Math.random()-.5)*100,z:(Math.random()-.5)*60};
 }
-for(let i=0;i<30;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}
+for(let i=0;i<TREE_COUNT;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}
 
 // Stumps and logs left behind
 const stumps=[],looseLogs=[];
@@ -871,12 +937,12 @@ function spawnChips(pos,cfg){
     chips.push({m,vel:new THREE.Vector3((Math.random()-.5)*2.5,.4+Math.random()*1.4,(Math.random()-.5)*2.5),life:1,g:2.2,decay:.5,spin:3+Math.random()*4});
   }
 }
-function spawnDmgFloat(wPos,dmg){
+function spawnDmgFloat(wPos,dmg,crit){
   const v=wPos.clone().project(camera);
   const x=(v.x*.5+.5)*innerWidth,y=(-v.y*.5+.5)*innerHeight;
   const el=document.createElement('div');
-  el.style.cssText=`position:fixed;left:${x}px;top:${y}px;font-family:Tajawal;font-size:22px;font-weight:900;color:#ffff44;pointer-events:none;z-index:500;text-shadow:0 0 10px #ff0;animation:nPop .9s ease-out forwards;transform:translate(-50%,-50%)`;
-  el.textContent=`-${dmg}`;document.body.appendChild(el);setTimeout(()=>el.remove(),950);
+  el.style.cssText=`position:fixed;left:${x}px;top:${y}px;font-family:Tajawal;font-size:${crit?32:22}px;font-weight:900;color:${crit?'#ff5a3c':'#ffff44'};pointer-events:none;z-index:500;text-shadow:0 0 10px ${crit?'#f80':'#ff0'};animation:nPop .9s ease-out forwards;transform:translate(-50%,-50%)`;
+  el.textContent=(crit?'💥 CRIT -':'-')+dmg;document.body.appendChild(el);setTimeout(()=>el.remove(),950);
 }
 
 // ═══════════════════════════════════════════════
@@ -914,19 +980,20 @@ function setTreeBar(t){
   t.fill.scale.x=Math.max(pct,.001);t.fill.position.x=-(1-pct)*.65;
   t.fill.material.color.setHex(pct>.6?0x44cc44:pct>.3?0xcccc44:0xcc4444);
 }
-function hitFx(t,dmg){
-  t.swayForce+=.38;
+function hitFx(t,dmg,crit){
+  t.swayForce+=crit?.6:.38;
   const cp=t.grp.position.clone();cp.y+=.5;spawnChips(cp,t.cfg);
-  const fp=t.grp.position.clone();fp.y+=3;spawnDmgFloat(fp,dmg);
+  const fp=t.grp.position.clone();fp.y+=3;spawnDmgFloat(fp,dmg,crit);
 }
 // Damage lands at the moment of impact (not when the button is pressed)
 function applyHit(){
   const t=pendingHit;pendingHit=null;
   if(!t||t.dead)return;
-  const dmg=state.axePower;
-  camShake=.22;
-  try{navigator.vibrate&&navigator.vibrate(18)}catch(e){}
-  hitFx(t,dmg);
+  const crit=Math.random()<.15,dmg=curPower()*(crit?3:1);
+  camShake=crit?.4:.22;
+  try{navigator.vibrate&&navigator.vibrate(crit?[18,30,18]:18)}catch(e){}
+  hitFx(t,dmg,crit);
+  if(!online.active){questProg('hits',1);if(crit)questProg('crit',1)}
   if(online.active&&!online.isHost){
     // guest: show the hit right away; the HOST decides what really happened and sends it back
     t.hp=Math.max(1,t.hp-dmg);t.lh=Date.now();setTreeBar(t);
@@ -943,7 +1010,7 @@ function damageTree(t,dmg,by,fx){
 }
 function rewardFor(level){
   const cb=state.upgrades.coins;
-  return TREES[level-1].coins*(1+Math.floor(cb.level>0?cb.bonus[Math.min(cb.level-1,6)]*cb.level:0));
+  return Math.round(TREES[level-1].coins*(1+Math.floor(cb.level>0?cb.bonus[Math.min(cb.level-1,cb.bonus.length-1)]*cb.level:0))*boostMul('coins')*rebirthMul());
 }
 function giveReward(level){
   const b=rewardFor(level);
@@ -953,7 +1020,7 @@ function treeKilled(t,by){
   t.dead=true;
   if(online.active){onlineKill(t,by)}
   else{
-    giveReward(t.cfg.level);checkZone();
+    giveReward(t.cfg.level);checkZone();questProg('cut',1);saveGame();
     setTimeout(()=>{const sp=pickTreeSpot();spawnTree(sp.x,sp.z)},800);
   }
   killTreeVisual(t);
@@ -991,8 +1058,8 @@ function clearWorld(){
   looseLogs.forEach(L=>scene.remove(L.m));looseLogs.length=0;
 }
 function checkZone(){
-  if(online.active)return;                             // online: the host sets the difficulty
-  const th=[0,5,15,30,55,90,140,200,300,500];
+  if(online.active)return;
+  const th=ZONE_TH;
   for(let z=th.length;z>=1;z--){if(state.treesCut>=th[z-1]&&state.zone<z){state.zone=z;updateHUD();showNotif(`🏆 منطقة ${z}!`);break}}
 }
 
@@ -1002,11 +1069,13 @@ function checkZone(){
 function updateHUD(){
   document.getElementById('h-cut').textContent=state.treesCut;
   document.getElementById('h-coins').textContent=state.coins;
-  document.getElementById('h-power').textContent=state.axePower;
+  document.getElementById('h-power').textContent=curPower();
   document.getElementById('h-zone').textContent=state.zone;
-  const th=[0,5,15,30,55,90,140,200,300,500];
-  const cur=th[state.zone-1]||0,nxt=th[state.zone]||500;
-  document.getElementById('prog-fill').style.width=Math.min(100,((state.treesCut-cur)/(nxt-cur))*100)+'%';
+  const th=ZONE_TH;
+  const cur=th[state.zone-1]||0,nxt=th[state.zone];
+  document.getElementById('prog-fill').style.width=(nxt?Math.min(100,((state.treesCut-cur)/(nxt-cur))*100):100)+'%';
+  {const e=document.getElementById('hb-rb');if(e){e.style.display=(rebirth.count>0&&!online.active)?'flex':'none';document.getElementById('h-rb').textContent='x'+Math.pow(2,rebirth.count)}}
+  renderQuests();
   renderShop();
 }
 function showNotif(msg,gold=false){
@@ -1015,8 +1084,14 @@ function showNotif(msg,gold=false){
   setTimeout(()=>n.remove(),2600);
 }
 const UPG=['power','speed','auto','coins'];
+let shopTab='upg';
 function renderShop(){
   const c=document.getElementById('shop-cards');c.innerHTML='';
+  document.querySelectorAll('.stab').forEach(b=>b.classList.toggle('active',b.dataset.tab===shopTab));
+  if(shopTab==='boost')return renderBoostTab(c);
+  if(shopTab==='coins')return renderCoinsTab(c);
+  if(shopTab==='axes')return renderAxesTab(c);
+  if(shopTab==='rebirth')return renderRebirthTab(c);
   UPG.forEach(k=>{
     const u=state.upgrades[k],lv=u.level,mx=u.cost.length;
     const cost=lv<mx?u.cost[lv]:null,can=cost!==null&&state.coins>=cost;
@@ -1034,12 +1109,270 @@ function buyUpgrade(k){
   if(k==='power')state.axePower+=bonus;
   if(k==='speed')state.axeSpeed+=bonus;
   if(k==='auto'){state.autoChop+=bonus;restartAuto()}
-  showNotif('✅ تمت الترقية!',true);updateHUD();
+  showNotif('✅ تمت الترقية!',true);updateHUD();saveGame();
 }
 function restartAuto(){
   if(autoInt)clearInterval(autoInt);
-  if(state.autoChop>0)autoInt=setInterval(()=>{for(let i=0;i<state.autoChop;i++)chopTarget()},1000);
+  if(state.autoChop>0)autoInt=setInterval(()=>{if(document.body.classList.contains('in-menu'))return;for(let i=0;i<state.autoChop;i++)chopTarget()},1000);
 }
+
+// ═══════ v4: حفظ تلقائي + بوستات + تبويبات المتجر + خروج ═══════
+const $q=id=>document.getElementById(id);
+const SAVE_KEY='tc_save_v1';
+const BOOST_MS=5*60*1000;
+const boost={coins:0,power:0};                       // وقت انتهاء كل بوست
+function boostMul(k){return(!online.active&&boost[k]>Date.now())?2:1}
+function fmtT(ms){const s=Math.max(0,Math.ceil(ms/1000));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+
+// ── الحفظ التلقائي (اللعب الفردي فقط)
+function saveGame(){
+  if(online.active)return;
+  try{localStorage.setItem(SAVE_KEY,JSON.stringify({
+    coins:state.coins,treesCut:state.treesCut,zone:state.zone,
+    axePower:state.axePower,axeSpeed:state.axeSpeed,autoChop:state.autoChop,
+    lv:{power:state.upgrades.power.level,speed:state.upgrades.speed.level,auto:state.upgrades.auto.level,coins:state.upgrades.coins.level},
+    boost:{coins:boost.coins,power:boost.power},
+    axes:{owned:axeData.owned,equipped:axeData.equipped},rb:rebirth.count,
+    q:quests.map(q=>({t:q.t,need:q.need,have:q.have,rk:q.rk}))}))}catch(e){}
+}
+function loadGame(){
+  try{
+    const d=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(!d)return;
+    state.coins=+d.coins||0;state.treesCut=+d.treesCut||0;state.zone=Math.max(1,+d.zone||1);
+    state.axePower=+d.axePower||1;state.axeSpeed=+d.axeSpeed||1;state.autoChop=+d.autoChop||0;
+    for(const k in state.upgrades)state.upgrades[k].level=Math.min(state.upgrades[k].cost.length,+(d.lv&&d.lv[k])||0);
+    boost.coins=+(d.boost&&d.boost.coins)||0;boost.power=+(d.boost&&d.boost.power)||0;
+    if(d.axes&&Array.isArray(d.axes.owned)){
+      axeData.owned=d.axes.owned.filter(id=>AXES.some(a=>a.id===id));
+      if(!axeData.owned.includes('base'))axeData.owned.unshift('base');
+      axeData.equipped=axeData.owned.includes(d.axes.equipped)?d.axes.equipped:'base';
+      applyAxeSkin(axeData.equipped);
+    }
+    rebirth.count=Math.max(0,+d.rb||0);
+    quests.forEach((q,i)=>{quests[i]=newQuest(q.t)});
+    if(Array.isArray(d.q))d.q.forEach(o=>{const i=quests.findIndex(x=>x.t===o.t);if(i>=0&&+o.need>0)quests[i]={t:o.t,need:+o.need,have:Math.max(0,+o.have||0),rk:+o.rk||1}});
+    try{localStorage.setItem('tc_tut','1')}catch(e){}
+    restartAuto();
+    clearWorld();for(let i=0;i<TREE_COUNT;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}
+  }catch(e){}
+}
+setInterval(saveGame,10000);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)saveGame()});
+window.addEventListener('beforeunload',saveGame);
+
+// ── إعلان مكافأة
+// ★ اربط كود الإعلان الحقيقي هنا: استدعِ onDone() عند اكتمال المشاهدة، و onFail() عند الفشل/الإغلاق المبكر
+// مثال: RealAdSDK.showRewarded().then(onDone).catch(onFail);
+// ★ معرّف إعلان الاختبار الرسمي من Google (استبدله بمعرّف وحدتك الحقيقي عند النشر على Google Play فقط)
+const ADMOB_REWARD_ID='ca-app-pub-3940256099942544/5224354917';
+let admobReady=false;
+async function showRewardedAd(onDone,onFail){
+  const AdMob=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.AdMob;
+  if(AdMob){
+    try{
+      if(!admobReady){await AdMob.initialize({initializeForTesting:true});admobReady=true;}
+      await AdMob.prepareRewardVideoAd({adId:ADMOB_REWARD_ID,isTesting:true});
+      const res=await AdMob.showRewardVideoAd();
+      if(res&&res.amount!==undefined)onDone(); else onDone();
+      return;
+    }catch(e){if(onFail)onFail();return;}
+  }
+  const ov=$q('ad-overlay'),tx=$q('ad-count');          // ← محاكاة 5 ثواني في المتصفح
+  let s=5;tx.textContent=s;ov.classList.add('open');
+  const iv=setInterval(()=>{s--;tx.textContent=s;if(s<=0){clearInterval(iv);ov.classList.remove('open');onDone()}},1000);
+}
+let adBusy=false;
+function watchAdFor(k){
+  if(adBusy)return;adBusy=true;
+  showRewardedAd(()=>{adBusy=false;activateBoost(k)},()=>{adBusy=false;showNotif('❌ لم يكتمل الإعلان')});
+}
+function activateBoost(k){
+  boost[k]=Math.max(boost[k],Date.now())+BOOST_MS;
+  saveGame();boostTick();updateHUD();
+  showNotif('🚀 تم تفعيل x2 '+(k==='coins'?'فلوس':'قوة')+' لـ 5 دقائق',true);
+}
+const _bOn={coins:false,power:false};
+function boostTick(){
+  const now=Date.now();let chg=false;
+  ['coins','power'].forEach(k=>{
+    const left=boost[k]-now,on=left>0&&!online.active;
+    const hb=$q('hb-'+k);if(hb){hb.style.display=on?'flex':'none';if(on)$q('b-'+k+'-t').textContent=fmtT(left)}
+    const tt=$q('bt-'+k);if(tt)tt.textContent=left>0?fmtT(left):'';
+    if(on!==_bOn[k]){if(!on&&left<=0)showNotif('⌛ انتهى بوست '+(k==='coins'?'الفلوس':'القوة'));_bOn[k]=on;chg=true}
+  });
+  if(chg)updateHUD();
+}
+setInterval(boostTick,1000);
+
+// ── تبويبات المتجر
+function renderBoostTab(c){
+  const off=online.active,now=Date.now();
+  [['coins','💰','x2 فلوس','مضاعفة عملات كل شجرة'],['power','💪','x2 قوة','مضاعفة ضرر الفأس']].forEach(([k,ic,nm,ds])=>{
+    const left=boost[k]-now,card=document.createElement('div');card.className='ucard';
+    card.innerHTML=`<div><div class="uname">${ic} ${nm}</div><div class="udesc">${off?'غير متاح في الأونلاين':ds+' — 5 دقائق'}</div><div class="ulvl" id="bt-${k}">${left>0?fmtT(left):''}</div></div><button class="bbtn" ${off?'disabled':''}>📺 شاهد إعلان</button>`;
+    if(!off)card.querySelector('.bbtn').addEventListener('click',()=>watchAdFor(k));
+    c.appendChild(card);
+  });
+}
+const COIN_PACKS=[{id:'c1',coins:1000,desc:'مكافأة سريعة'},{id:'c2',coins:2500,desc:'باقة العملات الكبيرة'}];
+function watchAdForCoins(amount){
+  if(adBusy)return;adBusy=true;
+  showRewardedAd(()=>{adBusy=false;state.coins+=amount;saveGame();updateHUD();showNotif('+'+amount.toLocaleString('en')+' 🪙',true)},()=>{adBusy=false;showNotif('❌ لم يكتمل الإعلان')});
+}
+function renderCoinsTab(c){
+  const off=online.active;
+  COIN_PACKS.forEach(p=>{
+    const card=document.createElement('div');card.className='ucard';
+    card.innerHTML=`<div><div class="uname">🪙 ${p.coins.toLocaleString('en')}</div><div class="udesc">${off?'غير متاح في الأونلاين':p.desc}</div></div><button class="bbtn" ${off?'disabled':''}>📺 شاهد إعلان</button>`;
+    if(!off)card.querySelector('.bbtn').addEventListener('click',()=>watchAdForCoins(p.coins));
+    c.appendChild(card);
+  });
+}
+document.querySelectorAll('.stab').forEach(b=>b.addEventListener('click',()=>{shopTab=b.dataset.tab;renderShop()}));
+
+// ── زر الخروج
+$q('exit-btn').addEventListener('click',()=>{
+  if(online.active){leaveOnline('');return}
+  saveGame();
+  $q('shop-overlay').classList.remove('open');$q('settings-overlay').classList.remove('open');
+  showMenu();
+});
+
+// ═══════ v5: فؤوس + Rebirth + مهام + ضربة حرجة + تيتوريال ═══════
+const AXES=[
+  {id:'base',   name:'فأس عادي',  ic:'🪓',mult:1,  cost:0,      dark:0x24262c,light:0xe8edf7,em:0x000000},
+  {id:'iron',   name:'فأس حديدي', ic:'⚙️',mult:1.5,cost:2000,   dark:0x5a606c,light:0xf4f7ff,em:0x000000},
+  {id:'gold',   name:'فأس ذهبي',  ic:'🥇',mult:2,  cost:20000,  dark:0x8a6a10,light:0xffe066,em:0x2a1c00},
+  {id:'diamond',name:'فأس ماسي',  ic:'💎',mult:3,  cost:150000, dark:0x1a7a9a,light:0xb8f4ff,em:0x063a4a},
+  {id:'fire',   name:'فأس ناري',  ic:'🔥',mult:5,  cost:1000000,dark:0x8a1a00,light:0xffb02e,em:0x7a2400}
+];
+const axeData={owned:['base'],equipped:'base'};
+const rebirth={count:0};
+function axeMult(){if(online.active)return 1;let m=1;AXES.forEach(a=>{if(axeData.owned.includes(a.id)&&a.mult>m)m=a.mult});return m}
+function curPower(){return Math.max(1,Math.round(state.axePower*boostMul('power')*axeMult()))}
+function rebirthMul(){return online.active?1:Math.pow(2,rebirth.count)}
+function rebirthNeed(){return Math.round(150*Math.pow(rebirth.count+1,1.5))}
+
+function applyAxeSkin(id){
+  const sk=AXES.find(a=>a.id===id)||AXES[0];
+  axeMesh.traverse(o=>{
+    if(!o.isMesh||!o.material.vertexColors)return;
+    const pos=o.geometry.attributes.position,col=o.geometry.attributes.color;
+    const cd=new THREE.Color(sk.dark),cl=new THREE.Color(sk.light),tmp=new THREE.Color();
+    for(let i=0;i<pos.count;i++){
+      const t=THREE.MathUtils.clamp((pos.getX(i)-.30)/.34,0,1);
+      tmp.copy(cd).lerp(cl,t*t*(3-2*t));col.setXYZ(i,tmp.r,tmp.g,tmp.b);
+    }
+    col.needsUpdate=true;o.material.emissive.setHex(sk.em);
+  });
+}
+function renderAxesTab(c){
+  const off=online.active;
+  AXES.forEach(a=>{
+    const own=axeData.owned.includes(a.id),eq=axeData.equipped===a.id,can=!off&&!own&&state.coins>=a.cost;
+    const card=document.createElement('div');card.className='ucard';
+    const btn=own?`<button class="bbtn" ${eq||off?'disabled':''}>${eq?'✅ مجهّز':'تجهيز'}</button>`
+                 :`<button class="bbtn" ${can?'':'disabled'}>🪙 ${a.cost.toLocaleString('en')}</button>`;
+    card.innerHTML=`<div><div class="uname">${a.ic} ${a.name}</div><div class="udesc">${off?'غير متاح في الأونلاين':'مضاعف قوة دائم'}</div><div class="ulvl">x${a.mult} قوة</div></div>${btn}`;
+    const b=card.querySelector('.bbtn');
+    if(own&&!eq&&!off)b.addEventListener('click',()=>equipAxe(a.id));
+    if(!own&&can)b.addEventListener('click',()=>buyAxe(a));
+    c.appendChild(card);
+  });
+}
+function equipAxe(id){axeData.equipped=id;applyAxeSkin(id);saveGame();renderShop()}
+function buyAxe(a){
+  if(online.active||axeData.owned.includes(a.id)||state.coins<a.cost)return;
+  state.coins-=a.cost;axeData.owned.push(a.id);axeData.equipped=a.id;applyAxeSkin(a.id);
+  saveGame();updateHUD();showNotif('🪓 حصلت على '+a.name+'! x'+a.mult+' قوة',true);
+}
+
+let rbSure=0;
+function renderRebirthTab(c){
+  const off=online.active,need=rebirthNeed(),ok=state.treesCut>=need;
+  const card=document.createElement('div');card.className='ucard';card.style.cssText='flex-direction:column;align-items:stretch';
+  card.innerHTML=`<div class="uname">🔁 Rebirth ${rebirth.count>0?'— x'+Math.pow(2,rebirth.count)+' حالياً':''}</div>
+    <div class="udesc">يرجّع تقدمك (عملات، أشجار، منطقة، ترقيات) من الصفر مقابل مضاعف أرباح دائم. الفؤوس والمهام تبقى لك.</div>
+    <div class="ulvl">المضاعف بعد الولادة: x${Math.pow(2,rebirth.count+1)}</div>
+    <div class="udesc">المطلوب: ${Math.min(state.treesCut,need)}/${need} شجرة</div>
+    <button class="bbtn" style="margin-top:8px" ${off||!ok?'disabled':''}>${off?'غير متاح في الأونلاين':(Date.now()<rbSure?'⚠️ اضغط للتأكيد':'🔁 ولادة جديدة')}</button>`;
+  const b=card.querySelector('.bbtn');
+  if(!off&&ok)b.addEventListener('click',()=>{
+    if(Date.now()<rbSure)doRebirth();
+    else{rbSure=Date.now()+4000;renderShop();setTimeout(renderShop,4100)}
+  });
+  c.appendChild(card);
+}
+function doRebirth(){
+  if(online.active||state.treesCut<rebirthNeed())return;
+  rebirth.count++;rbSure=0;
+  resetProgress();
+  clearWorld();for(let i=0;i<TREE_COUNT;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}
+  quests.forEach((q,i)=>{quests[i]=newQuest(q.t)});
+  saveGame();updateHUD();showNotif('🔁 Rebirth! مضاعف الأرباح الآن x'+Math.pow(2,rebirth.count),true);
+}
+
+const QTYPES={
+  cut: {txt:n=>'اقطع '+n+' شجرة',     need:z=>4+z*2,  rk:n=>n*.7},
+  crit:{txt:n=>n+' ضربات حرجة 💥',    need:z=>2+z,    rk:n=>n*1.6},
+  hits:{txt:n=>'اضرب '+n+' ضربة',     need:z=>15+z*6, rk:n=>n*.12}
+};
+function newQuest(t){const d=QTYPES[t],n=d.need(state.zone);return{t,need:n,have:0,rk:d.rk(n)}}
+const quests=['cut','crit','hits'].map(newQuest);
+function topLevel(){let l=1;UNLOCK.forEach((u,i)=>{if(u<=state.zone)l=i+1});return l}
+function questReward(q){return Math.max(1,Math.round(rewardFor(topLevel())*q.rk))}
+function questProg(t,n){
+  if(online.active)return;
+  const i=quests.findIndex(x=>x.t===t);if(i<0)return;
+  const q=quests[i];q.have+=n;
+  if(q.have>=q.need){
+    const r=questReward(q);state.coins+=r;
+    showNotif('🎯 مهمة مكتملة! +'+r+' 🪙',true);
+    quests[i]=newQuest(t);updateHUD();saveGame();
+  } else renderQuests();
+}
+function renderQuests(){
+  const b=$q('quest-bar');if(!b)return;
+  if(online.active){b.style.display='none';return}
+  b.style.display='';
+  b.innerHTML=quests.map(q=>`<div class="qrow"><div class="qfill" style="width:${Math.min(100,q.have/q.need*100)}%"></div><span class="qtx">${QTYPES[q.t].txt(q.need)}</span><b class="qn">${Math.min(q.have,q.need)}/${q.need} · ${questReward(q)} 🪙</b></div>`).join('');
+}
+
+const tut={on:false,step:0,px:0,pz:0,cut0:0};
+function tutDone(){try{return localStorage.getItem('tc_tut')==='1'}catch(e){return false}}
+function tutSetDone(){try{localStorage.setItem('tc_tut','1')}catch(e){}}
+function tutShow(){
+  const pc=settings.device==='pc';
+  const T=[
+    pc?'⌨️ تحرّك بأزرار WASD أو الأسهم (Shift للركض)':'🕹️ حرّك الجويستيك (يسار الشاشة) للمشي',
+    pc?'🪓 اقترب من شجرة واضغط كليك يسار (أو Space) لين تنقطع':'🪓 اقترب من أي شجرة واضغط زر «اقطع!» لين تنقطع',
+    '🛒 ممتاز! افتح المتجر وطوّر فأسك بالعملات',
+    '🎉 جاهز! اقطع الأشجار، طوّر فأسك، وارفع المنطقة'
+  ];
+  $q('tut-step').textContent=tut.step<3?'الخطوة '+(tut.step+1)+' من 3':'🎉';
+  $q('tut-txt').textContent=T[tut.step];
+  $q('tut-skip').style.display=tut.step<3?'':'none';
+  $q('shop-btn').classList.toggle('tut-pulse',tut.step===2);
+  $q('tut').classList.add('open');
+}
+function startTutorial(){
+  if(tut.on||tutDone())return;
+  tut.on=true;tut.step=0;tut.px=playerGroup.position.x;tut.pz=playerGroup.position.z;tut.cut0=state.treesCut;
+  tutShow();
+}
+function tutNext(){
+  tut.step++;tut.cut0=state.treesCut;tutShow();
+  if(tut.step===3){tutSetDone();setTimeout(tutEnd,3500)}
+}
+function tutEnd(){tut.on=false;tutSetDone();$q('tut').classList.remove('open');$q('shop-btn').classList.remove('tut-pulse')}
+$q('tut-skip').addEventListener('click',tutEnd);
+$q('shop-btn').addEventListener('click',()=>{if(tut.on&&tut.step===2)tutNext()});
+setInterval(()=>{
+  $q('tut').style.visibility=online.active?'hidden':'';
+  if(!tut.on)return;
+  if(tut.step===0&&Math.hypot(playerGroup.position.x-tut.px,playerGroup.position.z-tut.pz)>5)tutNext();
+  else if(tut.step===1&&state.treesCut>tut.cut0)tutNext();
+},400);
 document.getElementById('shop-btn').addEventListener('click',()=>{renderShop();document.getElementById('shop-overlay').classList.add('open')});
 document.getElementById('close-shop').addEventListener('click',()=>document.getElementById('shop-overlay').classList.remove('open'));
 document.getElementById('shop-overlay').addEventListener('click',e=>{if(e.target.id==='shop-overlay')document.getElementById('shop-overlay').classList.remove('open')});
@@ -1189,8 +1522,8 @@ function animate(){
     if(Math.hypot(lunge.x-playerGroup.position.x,lunge.z-playerGroup.position.z)<.06)lunge=null;
   }
   if(sp>.05){
-    playerGroup.position.x=Math.max(-80,Math.min(80,playerGroup.position.x+velX*dt));
-    playerGroup.position.z=Math.max(-45,Math.min(45,playerGroup.position.z+velZ*dt));
+    playerGroup.position.x=Math.max(-113,Math.min(113,playerGroup.position.x+velX*dt));
+    playerGroup.position.z=Math.max(-64,Math.min(64,playerGroup.position.z+velZ*dt));
     if(sp>.5&&!swinging){                            // turn smoothly toward the walking direction
       let d=Math.atan2(velX,velZ)-playerGroup.rotation.y;
       d=Math.atan2(Math.sin(d),Math.cos(d));
@@ -1328,6 +1661,7 @@ function startGame(){
     showNotif('🕹️ جويستيك للتحرك — اسحب الشاشة لتدوير الكاميرا');
     setTimeout(()=>showNotif('🪓 اقترب من الشجرة واضغط اقطع!'),3500);
   }
+  if(!tutDone())setTimeout(startTutorial,800);
 }
 
 // ── Device choice (laptop / phone)
@@ -1401,7 +1735,8 @@ async function openTransport(code){
       connected:()=>r.connected(),
       leave:()=>{try{if(r!==ns)r.leave();else ns.presence({g:null,role:null,trees:null,hits:null})}catch(e){}}};
   }
-  const url=settings.serverUrl||(/^https?:$/.test(location.protocol)?((location.protocol==='https:'?'wss://':'ws://')+location.host+'/ws'):'');
+  const isCap=!!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());
+  const url=settings.serverUrl||((!isCap&&/^https?:$/.test(location.protocol))?((location.protocol==='https:'?'wss://':'ws://')+location.host+'/ws'):'wss://tree-chopper.onrender.com/ws');
   if(!url)throw new Error('nourl');
   return openWS(url,code);
 }
@@ -1495,7 +1830,7 @@ async function startOnline(mode,role,code){
   online.off=api.onPeers(onNetPeers);
   api.presence({g:code,n:online.nick,role:role==='host'?'h':'g',m:mode,x:+playerGroup.position.x.toFixed(2),z:+playerGroup.position.z.toFixed(2),r:0,sw:0});
   onNetPeers({peers:api.peers()});
-  if(online.isHost){for(let i=0;i<30;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}publishHost()}
+  if(online.isHost){for(let i=0;i<TREE_COUNT;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}publishHost()}
   byId('online-overlay').classList.remove('open');
   hideMenu();
   showNotif(online.isHost?'🌐 أعطِ صديقك كود الغرفة':'🌐 تم الانضمام، بانتظار المضيف');
@@ -1512,7 +1847,7 @@ function leaveOnline(msg){
   clearWorld();
   if(online.snapshot){Object.assign(state,JSON.parse(online.snapshot));online.snapshot=null}
   restartAuto();
-  for(let i=0;i<30;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}
+  for(let i=0;i<TREE_COUNT;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}
   updateHUD();renderNetPanel();
   showMenu();menuMsg(msg||'');
 }
@@ -1575,7 +1910,7 @@ function doPublishHost(){
     sc:Object.keys(online.scores).map(k=>[k,online.scores[k]]),ev:online.events
   });
 }
-function zoneFor(n){const th=[0,5,15,30,55,90,140,200,300,500];let z=1;for(let i=0;i<th.length;i++)if(n>=th[i])z=i+1;return z}
+function zoneFor(n){const th=ZONE_TH;let z=1;for(let i=0;i<th.length;i++)if(n>=th[i])z=i+1;return z}
 // HOST: a tree died — score it, reward, respawn, maybe end the race
 function onlineKill(t,by){
   if(!online.isHost)return;
@@ -1604,7 +1939,7 @@ function hostStart(){
 function hostRestart(){
   if(!online.isHost)return;
   clearWorld();
-  for(let i=0;i<30;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}
+  for(let i=0;i<TREE_COUNT;i++){const sp=pickTreeSpot();spawnTree(sp.x,sp.z)}
   online.scores={};online.total=0;online.events=[];online.winner=null;online.phase='wait';online.cd=0;state.zone=1;
   resetProgress();publishHost();renderNetPanel();
 }
@@ -1797,7 +2132,7 @@ document.getElementById('ingame-settings-btn').addEventListener('click',()=>{
 });
 window.addEventListener('resize',()=>applyLayout());
 applyLayout();
-updateHUD();animate();
+loadGame();updateHUD();animate();
 </script>
 </body>
 </html>
